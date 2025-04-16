@@ -1,1 +1,98 @@
-<p>contacts works!</p>
+<div class="main-contact">
+    <div class="contact-list">
+        <button class="add-contacts-btn" (click)="openOverlay()">
+            Add new Contact
+            <img class="contact-icon" src="../assets/img/contact.svg" alt="contact-img">
+        </button>
+    </div>
+
+    <div class="contact-detail"></div>
+
+
+
+
+
+
+
+
+
+
+    <div class="detail-view" [class.show]="overlayOpen">
+        <div class="add-overlay-container slide-in-overlay" id="add-overlay-container"
+            (click)="$event.stopPropagation()">
+            <div class="add-top-container">
+                <img src="../assets/img/join.svg" alt="Join" class="join-logo-overlay">
+                <p class="overlay-headline">Add contact</p>
+                <p class="overlay-p">Tasks are better with a team!</p>
+
+                <!-- Angular click binding -->
+                <button class="close-btn-overlay" (click)="closeOverlay()">
+                    <img src="../assets/img/closeOverlay.svg" alt="X">
+                </button>
+
+                <div class="initials-overlay-media" style="background-color: #D1D1D1;">
+                    <img class="initials-placeholder" src="../assets/img/personOverlay.svg" alt="">
+                </div>
+            </div>
+
+            <div class="edit-bottom-container">
+                <div class="edit-container">
+                    <div class="initials-overlay" style="background-color: #D1D1D1;">
+                        <img class="initials-placeholder" src="../assets/img/personOverlay.svg" alt="">
+                    </div>
+
+                    <!-- Angular form handling -->
+                    <form class="overlay-form">
+                        <div class="overlay-input-container">
+                            <input class="overlay-input-field input-person" placeholder="Name" type="text"
+                                id="add-name-overlay" name="name" required>
+                            <label for="add-name-overlay"></label>
+                            <p id="error-message" style="color: red; display: none;">Bitte geben Sie sowohl einen Vor-
+                                als auch einen Nachnamen ein.</p>
+                        </div>
+
+                        <div class="overlay-input-container">
+                            <input class="overlay-input-field input-letter" placeholder="Email" pattern=".+@[^@]+\.+"
+                                type="email" id="add-email-overlay" name="email" required>
+                        </div>
+
+                        <div class="overlay-input-container">
+                            <input class="overlay-input-field input-tel" placeholder="Phone" type="number"
+                                id="add-phoneNumber-overlay" name="phone" required>
+                        </div>
+
+                        <div class="overlay-btn">
+                            <!-- Angular click binding -->
+                            <button class="overlay-white-btn" id="cancel-btn-overlay" type="button"
+                                (click)="closeOverlay()">
+                                Cancel
+                                <img src='../assets/img/closeAddContacts.svg' class="hover-btn-grey" alt="x">
+                                <img src='../assets/img/closeAddContactHover.svg' class="hover-btn-blue" alt="x">
+                            </button>
+
+                            <button class="overlay-blue-btn" type="submit">
+                                Create Contact
+                                <img src="../assets/img/checkOverlay.svg" class="white-check-overlay" alt="check">
+                                <img src="../assets/img/checkOverlayBlue.svg" class="blue-check-overlay" alt="check">
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

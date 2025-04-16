@@ -1,3 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.main-content {
+  position: absolute;
+  top: 100px;
+  left: 250px;
+}
+
+
 header {
     width: 100%;
     height: 96px;

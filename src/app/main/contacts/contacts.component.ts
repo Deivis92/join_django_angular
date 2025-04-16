@@ -6,6 +6,17 @@ import { Component } from '@angular/core';
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss'
 })
-export class ContactsComponent {
+export class ContactsComponent  {
 
+  overlayOpen = false;
+
+  openOverlay() {
+    this.overlayOpen = true;
+  }
+
+  closeOverlay() {
+    this.overlayOpen = false;
+  }
 }
+
+

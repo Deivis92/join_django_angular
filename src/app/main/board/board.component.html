@@ -1,1 +1,60 @@
-<p>board works!</p>
+<div class="wrap">
+    <div class="board-section">
+      <div class="top-board-section">
+        <div class="searchbar-container">
+          <input type="text" class="searchbar-board" placeholder="Find Task" oninput="renderTasks()">
+          <button class="add-task-btn" onclick="renderAddTaskOverlay(); selectPriority('Medium');">
+            Add Task
+            <img src="../assets/img/plus.svg" alt="+">
+          </button>
+        </div>
+      </div>
+      <div class="board-headline-container">
+        <div class="outer-board-container">
+          <div class="board-top-container">
+            <h4>To do</h4>
+            <button class="add-task-btn-small" onclick="renderAddTaskOverlay(); selectPriority('Medium');">
+              <img class="add-task-btn-unhover" src="../assets/img/addTaskBtn.svg" alt="+">
+              <img class="add-task-btn-hover" src="../assets/img/addTaskBtnHover.svg" alt="+">
+            </button>
+          </div>
+          <ul class="board-content-container drag-area" id="toDo" ondrop="drop(event)"
+            ondragleave="removeHighlight(event)" ondragover="allowDrop(event); highlight(event)">
+          </ul>
+        </div>
+        <div class="outer-board-container">
+          <div class="board-top-container">
+            <h4>In progress</h4>
+            <button class="add-task-btn-small" onclick="renderAddTaskOverlay('inProgress'); selectPriority('Medium');">
+              <img class="add-task-btn-unhover" src="../assets/img/addTaskBtn.svg" alt="+">
+              <img class="add-task-btn-hover" src="../assets/img/addTaskBtnHover.svg" alt="+">
+            </button>
+          </div>
+          <ul class="board-content-container drag-area" id="inProgress" ondrop="drop(event)"
+            ondragleave="removeHighlight(event)" ondragover="allowDrop(event); highlight(event)">
+          </ul>
+        </div>
+        <div class="outer-board-container">
+          <div class="board-top-container">
+            <h4>Await feedback</h4>
+            <button class="add-task-btn-small"
+              onclick="renderAddTaskOverlay('awaitFeedback'); selectPriority('Medium');">
+              <img class="add-task-btn-unhover" src="../assets/img/addTaskBtn.svg" alt="+">
+              <img class="add-task-btn-hover" src="../assets/img/addTaskBtnHover.svg" alt="+">
+            </button>
+          </div>
+          <ul class="board-content-container drag-area" id="awaitFeedback" ondrop="drop(event)"
+            ondragleave="removeHighlight(event)" ondragover="allowDrop(event); highlight(event)">
+          </ul>
+        </div>
+        <div class="outer-board-container">
+          <div class="board-top-container">
+            <h4>Done</h4>
+          </div>
+          <ul class="board-content-container drag-area" id="done" ondrop="drop(event)"
+            ondragleave="removeHighlight(event)" ondragover="allowDrop(event); highlight(event)">
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
