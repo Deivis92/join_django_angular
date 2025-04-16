@@ -1,0 +1,162 @@
+header {
+    width: 100%;
+    height: 96px;
+    color: white;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+    background-color: #4589ff;
+    box-shadow: 2px 0px 4px #2a36472e;
+    user-select: none;
+    position: relative;
+  
+    .wrap-header {
+      display: flex;
+      height: 56px;
+      padding: 20px 39px;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .join-logo {
+      width: 45.93px;
+      height: 56px;
+      cursor: pointer;
+      pointer-events: none;
+      user-select: none;
+    }
+  
+    .right-header-section {
+      width: 433px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 19px;
+    }
+  
+    .help-icon-container {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      margin-left: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      .help-icon {
+        height: 100%;
+        transition: 0.05s;
+  
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+  
+    .profil-btn-container {
+      position: relative;
+      border: 3px solid white;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+  
+      .profil-btn {
+        border-radius: 50%;
+        background-color: white;
+        border-style: none;
+        width: 51px;
+        height: 51px;
+        font-size: 19px;
+        color: #005dff;
+        cursor: pointer;
+      }
+    }
+  
+    .cursor-pointer {
+      cursor: pointer;
+    }
+  
+    @keyframes slideIn {
+      from {
+        right: -220px;
+      }
+  
+      to {
+        right: -40px;
+      }
+    }
+  
+    @keyframes slideOut {
+      from {
+        right: -40px;
+      }
+  
+      to {
+        right: -220px;
+      }
+    }
+  
+    .popup-nav {
+      position: absolute;
+      top: 80px;
+      right: 0;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 30px 0 30px 30px;
+      padding: 8px 16px;
+      z-index: 1000;
+      height: auto;
+      width: 150px;
+      display: none;
+      text-align: end;
+  
+      &.show {
+        display: block;
+        animation: slideIn 0.3s forwards;
+      }
+  
+      &.hide {
+        animation: slideOut 0.3s forwards;
+      }
+  
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+  
+        li {
+          margin: 0;
+  
+          a {
+            text-decoration: none;
+            color: #2a3647;
+            padding: 8px 16px;
+  
+            &:hover {
+              background-color: #e3eeff;
+              border-radius: 8px;
+            }
+          }
+        }
+      }
+    }
+  
+    .d-none {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 700px) {
+    .right-header-section {
+      width: 130px;
+    }
+  
+    .tool-name {
+      display: none;
+    }
+  }
+  
