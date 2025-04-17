@@ -1,5 +1,8 @@
 .main-contact {
+    display: flex;
     position: relative;
+    height: 100%;
+    overflow: auto;
   
     .contact-list {
       .add-contacts-btn {
@@ -77,9 +80,8 @@
       }
     }
   }
-  
 
-
+ 
 
 
 
@@ -282,7 +284,7 @@
   }
   
   .letter-container {
-    height: 72px;
+    height: 40px;
   }
   
   #letter {

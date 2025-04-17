@@ -9,8 +9,10 @@
 
 .main-content {
   position: absolute;
+  display: flex;
   top: 100px;
   left: 250px;
+  height: calc(100vh - 100px);
 }
 
 
