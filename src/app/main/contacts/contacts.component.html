@@ -1,163 +1,331 @@
 <div class="main-contact">
-
-    <div class="scrollbar">
-        <div class="contact-list">
-            <button class="add-contacts-btn" (click)="openOverlay()">
-                Add new Contact
-                <img class="contact-icon" src="../assets/img/contact.svg" alt="contact-img">
-            </button>
-        </div>
-
-
-        <div *ngFor="let group of groupedContacts">
-            <div class="letter-container">
-                <p id="letter">{{ group.letter }}</p>
-                <div class="contacts-separator"></div>
-            </div>
-
-            <div *ngFor="let contact of group.contacts" class="contact-card" [id]="'contact-card-' + contact.id"
-                (click)="renderContactDetailCard(contact.id, getInitials(contact.name)); setContactActive($event)">
-
-                <div class="initials" [ngStyle]="{ 'background-color': contact.color }">
-                    {{ getInitials(contact.name) }}
-                </div>
-
-                <div class="contact-data">
-                    <p id="contact-name">{{ contact.name }}</p>
-                    <p class="contact-email">{{ contact.email }}</p>
-                </div>
-            </div>
-        </div>
+  <div class="scrollbar">
+    <div class="contact-list">
+      <button class="add-contacts-btn" (click)="openOverlay()">
+        Add new Contact
+        <img
+          class="contact-icon"
+          src="../assets/img/contact.svg"
+          alt="contact-img"
+        />
+      </button>
     </div>
 
+    <div *ngFor="let group of groupedContacts">
+      <div class="letter-container">
+        <p id="letter">{{ group.letter }}</p>
+        <div class="contacts-separator"></div>
+      </div>
 
-
-
-
-
-
-
-
-
-    
-        <div *ngIf="selectedContact" class="contact-detail-card">
-            <div class="contact-information-container">
-                Contact Information
-                <img class="back-arrow-contact-detail-card" src="../assets/img/arrowLeft.svg" alt="Arrow left"
-                    (click)="closeContactDetailCardWithoutSlideIn()" />
-            </div>
-
-            <div class="top-contact-container">
-                <div class="initials-big" [style.background-color]="selectedContact.color" id="initials">
-                    {{ selectedInitials }}
-                </div>
-
-                <div class="contact-name-container">
-                    <p class="contact-detail-name">
-                        {{ selectedContact.name }} {{ selectedContact.surname }}
-                    </p>
-
-                    <div class="contact-edit-container">
-                        <div class="contact-edit-inner-container"
-                            (click)="renderEditOverlay(selectedContact.id, selectedInitials)">
-                            <img class="unhover-btn" src="../assets/img/editUnhover.svg" alt="pencil" />
-                            <img class="hover-btn" src="../assets/img/editHover.svg" alt="pencil" />
-                        </div>
-
-                        <div class="contact-edit-inner-container" (click)="deleteContact(selectedContact.id)">
-                            <img class="unhover-btn" src="../assets/img/deleteUnhover.svg" alt="bin" />
-                            <img class="hover-btn" src="../assets/img/deleteHover.svg" alt="bin" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="contact-detail-container">
-                <p class="contact-information"><b>Contact Information</b></p>
-                <p class="contact-sign">Email</p>
-                <p class="contact-email">{{ selectedContact.email }}</p>
-                <p class="contact-sign">Phone</p>
-                <p class="contact-phoneNumber">{{ selectedContact.phone_number }}</p>
-            </div>
+      <div
+        *ngFor="let contact of group.contacts"
+        class="contact-card"
+        [id]="'contact-card-' + contact.id"
+        (click)="
+          renderContactDetailCard(contact.id, getInitials(contact.name));
+          setContactActive($event)
+        "
+      >
+        <div class="initials" [ngStyle]="{ 'background-color': contact.color }">
+          {{ getInitials(contact.name) }}
         </div>
-    
 
-
-
-
-
-
-
-
-
-
-    <div class="detail-view" [class.show]="overlayOpen">
-        <div class="add-overlay-container slide-in-overlay" id="add-overlay-container"
-            (click)="$event.stopPropagation()">
-            <div class="add-top-container">
-                <img src="../assets/img/join.svg" alt="Join" class="join-logo-overlay">
-                <p class="overlay-headline">Add contact</p>
-                <p class="overlay-p">Tasks are better with a team!</p>
-
-                <!-- Angular click binding -->
-                <button class="close-btn-overlay" (click)="closeOverlay()">
-                    <img src="../assets/img/closeOverlay.svg" alt="X">
-                </button>
-
-                <div class="initials-overlay-media" style="background-color: #D1D1D1;">
-                    <img class="initials-placeholder" src="../assets/img/personOverlay.svg" alt="">
-                </div>
-            </div>
-
-            <div class="edit-bottom-container">
-                <div class="edit-container">
-                    <div class="initials-overlay" style="background-color: #D1D1D1;">
-                        <img class="initials-placeholder" src="../assets/img/personOverlay.svg" alt="">
-                    </div>
-
-
-                    <form class="overlay-form" (ngSubmit)="submitContact()" #form="ngForm">
-                        <div class="overlay-input-container">
-                            <input class="overlay-input-field input-person" placeholder="Name" type="text"
-                                id="add-name-overlay" name="name" [(ngModel)]="newContact.name" required />
-                            <label for="add-name-overlay"></label>
-                            <p id="error-message" style="color: red;" *ngIf="showNameError">
-                                Bitte geben Sie sowohl einen Vor- als auch einen Nachnamen ein.
-                            </p>
-                        </div>
-
-                        <div class="overlay-input-container">
-                            <input class="overlay-input-field input-letter" placeholder="Email" pattern=".+@[^@]+\\.+"
-                                type="email" id="add-email-overlay" name="email" [(ngModel)]="newContact.email"
-                                required />
-                        </div>
-
-                        <div class="overlay-input-container">
-                            <input class="overlay-input-field input-tel" placeholder="Phone" type="tel"
-                                id="add-phoneNumber-overlay" name="phone" [(ngModel)]="newContact.phone_number"
-                                required />
-                        </div>
-
-                        <div class="overlay-btn">
-                            <button class="overlay-white-btn" type="button" (click)="closeOverlay()">
-                                Cancel
-                                <img src='../assets/img/closeAddContacts.svg' class="hover-btn-grey" alt="x" />
-                                <img src='../assets/img/closeAddContactHover.svg' class="hover-btn-blue" alt="x" />
-                            </button>
-
-                            <button class="overlay-blue-btn" type="submit">
-                                Create Contact
-                                <img src="../assets/img/checkOverlay.svg" class="white-check-overlay" alt="check" />
-                                <img src="../assets/img/checkOverlayBlue.svg" class="blue-check-overlay" alt="check" />
-                            </button>
-                        </div>
-                    </form>
-
-
-                </div>
-            </div>
+        <div class="contact-data">
+          <p id="contact-name">{{ contact.name }}</p>
+          <p class="contact-email">{{ contact.email }}</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedContact" class="contact-detail-card">
+    <div class="contact-information-container">
+      Contact Information
+      <img
+        class="back-arrow-contact-detail-card"
+        src="../assets/img/arrowLeft.svg"
+        alt="Arrow left"
+        (click)="closeContactDetailCardWithoutSlideIn()"
+      />
     </div>
 
+    <div class="top-contact-container">
+      <div
+        class="initials-big"
+        [style.background-color]="selectedContact.color"
+        id="initials"
+      >
+        {{ selectedInitials }}
+      </div>
 
+      <div class="contact-name-container">
+        <p class="contact-detail-name">
+          {{ selectedContact.name }} {{ selectedContact.surname }}
+        </p>
+
+        <div class="contact-edit-container">
+          <div
+            class="contact-edit-inner-container"
+            (click)="renderEditOverlay(selectedContact.id, selectedInitials)"
+          >
+            <img
+              class="unhover-btn"
+              src="../assets/img/editUnhover.svg"
+              alt="pencil"
+            />
+            <img
+              class="hover-btn"
+              src="../assets/img/editHover.svg"
+              alt="pencil"
+            />
+          </div>
+
+          <div
+            class="contact-edit-inner-container"
+            (click)="deleteContact(selectedContact.id)"
+          >
+            <img
+              class="unhover-btn"
+              src="../assets/img/deleteUnhover.svg"
+              alt="bin"
+            />
+            <img
+              class="hover-btn"
+              src="../assets/img/deleteHover.svg"
+              alt="bin"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-detail-container">
+      <p class="contact-information"><b>Contact Information</b></p>
+      <p class="contact-sign">Email</p>
+      <p class="contact-email">{{ selectedContact.email }}</p>
+      <p class="contact-sign">Phone</p>
+      <p class="contact-phoneNumber">{{ selectedContact.phone_number }}</p>
+    </div>
+  </div>
+
+  <div class="detail-view" [class.show]="overlayOpen">
+    <div
+      class="add-overlay-container slide-in-overlay"
+      id="add-overlay-container"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="add-top-container">
+        <img
+          src="../assets/img/join.svg"
+          alt="Join"
+          class="join-logo-overlay"
+        />
+        <p class="overlay-headline">Add contact</p>
+        <p class="overlay-p">Tasks are better with a team!</p>
+
+        <button class="close-btn-overlay" (click)="closeOverlay()">
+          <img src="../assets/img/closeOverlay.svg" alt="X" />
+        </button>
+
+        <div class="initials-overlay-media" style="background-color: #d1d1d1">
+          <img
+            class="initials-placeholder"
+            src="../assets/img/personOverlay.svg"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="edit-bottom-container">
+        <div class="edit-container">
+          <div class="initials-overlay" style="background-color: #d1d1d1">
+            <img
+              class="initials-placeholder"
+              src="../assets/img/personOverlay.svg"
+              alt=""
+            />
+          </div>
+
+          <form
+            class="overlay-form"
+            (ngSubmit)="submitContact()"
+            #form="ngForm"
+          >
+            <div class="overlay-input-container">
+              <input
+                class="overlay-input-field input-person"
+                placeholder="Name"
+                type="text"
+                id="add-name-overlay"
+                name="name"
+                [(ngModel)]="newContact.name"
+                required
+              />
+              <label for="add-name-overlay"></label>
+              <p id="error-message" style="color: red" *ngIf="showNameError">
+                Bitte geben Sie sowohl einen Vor- als auch einen Nachnamen ein.
+              </p>
+            </div>
+
+            <div class="overlay-input-container">
+              <input
+                class="overlay-input-field input-letter"
+                placeholder="Email"
+                pattern=".+@[^@]+\\.+"
+                type="email"
+                id="add-email-overlay"
+                name="email"
+                [(ngModel)]="newContact.email"
+                required
+              />
+            </div>
+
+            <div class="overlay-input-container">
+              <input
+                class="overlay-input-field input-tel"
+                placeholder="Phone"
+                type="tel"
+                id="add-phoneNumber-overlay"
+                name="phone"
+                [(ngModel)]="newContact.phone_number"
+                required
+              />
+            </div>
+
+            <div class="overlay-btn">
+              <button
+                class="overlay-white-btn"
+                type="button"
+                (click)="closeOverlay()"
+              >
+                Cancel
+                <img
+                  src="../assets/img/closeAddContacts.svg"
+                  class="hover-btn-grey"
+                  alt="x"
+                />
+                <img
+                  src="../assets/img/closeAddContactHover.svg"
+                  class="hover-btn-blue"
+                  alt="x"
+                />
+              </button>
+
+              <button class="overlay-blue-btn" type="submit">
+                Create Contact
+                <img
+                  src="../assets/img/checkOverlay.svg"
+                  class="white-check-overlay"
+                  alt="check"
+                />
+                <img
+                  src="../assets/img/checkOverlayBlue.svg"
+                  class="blue-check-overlay"
+                  alt="check"
+                />
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-view-edit" [class.show]="editOverlayOpen">
+    <div
+      class="add-overlay-container slide-in-overlay"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="add-top-container">
+        <img
+          src="../assets/img/join.svg"
+          alt="Join"
+          class="join-logo-overlay"
+        />
+        <p class="overlay-headline">Edit Contact</p>
+        <p class="overlay-p">Make changes to this contact.</p>
+
+        <button class="close-btn-overlay" (click)="closeEditOverlay()">
+          <img src="../assets/img/closeOverlay.svg" alt="X" />
+        </button>
+      </div>
+
+      <div class="edit-bottom-container">
+        <div class="edit-container">
+          <form
+            class="overlay-form"
+            *ngIf="selectedContact"
+            (ngSubmit)="updateContact()"
+          >
+            <div class="overlay-input-container">
+              <input
+                class="overlay-input-field input-person"
+                placeholder="Name"
+                type="text"
+                name="name"
+                [(ngModel)]="selectedContact.name"
+                required
+              />
+            </div>
+
+            <div class="overlay-input-container">
+              <input
+                class="overlay-input-field input-letter"
+                placeholder="Email"
+                type="email"
+                name="email"
+                [(ngModel)]="selectedContact.email"
+                required
+              />
+            </div>
+
+            <div class="overlay-input-container">
+              <input
+                class="overlay-input-field input-tel"
+                placeholder="Phone"
+                type="tel"
+                name="phone_number"
+                [(ngModel)]="selectedContact.phone_number"
+                required
+              />
+            </div>
+
+            <div class="overlay-btn">
+              <button
+                class="overlay-white-btn"
+                type="button"
+                (click)="closeEditOverlay()"
+              >
+                Cancel
+                <img
+                  src="../assets/img/closeAddContacts.svg"
+                  class="hover-btn-grey"
+                  alt="x"
+                />
+                <img
+                  src="../assets/img/closeAddContactHover.svg"
+                  class="hover-btn-blue"
+                  alt="x"
+                />
+              </button>
+
+              <button class="overlay-blue-btn" type="submit">
+                Save Changes
+                <img
+                  src="../assets/img/checkOverlay.svg"
+                  class="white-check-overlay"
+                  alt="check"
+                />
+                <img
+                  src="../assets/img/checkOverlayBlue.svg"
+                  class="blue-check-overlay"
+                  alt="check"
+                />
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

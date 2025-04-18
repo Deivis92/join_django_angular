@@ -19,4 +19,14 @@ export class ConfigService {
     createContact(contact: any): Observable<any> {
         return this.http.post<any>(this.apiUrl, contact);
       }
+
+      updateContact(contact: any): Observable<any> {
+        const url = `${this.apiUrl}${contact.id}/`;
+        return this.http.put<any>(url, contact);
+      }
+
+      deleteContact(id: number): Observable<any> {
+        const url = `${this.apiUrl}${id}/`;
+        return this.http.delete<any>(url);
+      }
 }

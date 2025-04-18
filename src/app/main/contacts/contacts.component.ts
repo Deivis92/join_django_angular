@@ -18,6 +18,8 @@ export class ContactsComponent implements OnInit {
   selectedInitials: string = '';
   overlayOpen = false;
   showNameError = false;
+  editOverlayOpen = false;
+
 
   newContact = {
     name: '',
@@ -25,7 +27,7 @@ export class ContactsComponent implements OnInit {
     phone_number: ''
   };
 
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) { }
 
   ngOnInit(): void {
     this.loadContacts();
@@ -44,9 +46,9 @@ export class ContactsComponent implements OnInit {
       this.showNameError = true;
       return;
     }
-  
+
     this.showNameError = false;
-  
+
     this.configService.createContact(this.newContact).subscribe({
       next: (response) => {
         console.log('Kontakt erfolgreich erstellt:', response);
@@ -72,48 +74,54 @@ export class ContactsComponent implements OnInit {
     const contact = this.groupedContacts
       .flatMap(group => group.contacts)
       .find(c => c.id === contactId);
-  
+
     if (contact) {
       this.selectedContact = contact;
       this.selectedInitials = initials;
     }
   }
 
-  
+
   closeContactDetailCardWithoutSlideIn(): void {
     this.selectedContact = null;
   }
 
   deleteContact(id: number): void {
-    console.log('Lösche Kontakt mit ID:', id);
-    // API call oder Dialog öffnen
+    if (confirm('Möchtest du diesen Kontakt wirklich löschen?')) {
+      this.configService.deleteContact(id).subscribe({
+        next: () => {
+          console.log(`Kontakt mit ID ${id} wurde gelöscht`);
+          this.loadContacts();
+          this.selectedContact = null;
+        },
+        error: (err) => {
+          console.error('Fehler beim Löschen des Kontakts:', err);
+        }
+      });
+    }
   }
 
-  renderEditOverlay(id: number, initials: string): void {
-    console.log('Bearbeiten:', id, initials);
-    // Öffne ein Overlay, Dialog etc.
-  }
-  
+
   private prepareGroupedContacts(data: any[]): void {
     const contactsWithColors = this.assignRandomColors(data);
     const sortedContacts = this.sortContactsByName(contactsWithColors);
     this.groupedContacts = this.groupContactsByFirstLetter(sortedContacts);
   }
-  
+
   private assignRandomColors(contacts: any[]): any[] {
     return contacts.map(contact => ({
       ...contact,
       color: this.getRandomColor()
     }));
   }
-  
+
   private sortContactsByName(contacts: any[]): any[] {
     return contacts.sort((a, b) => a.name.localeCompare(b.name));
   }
-  
+
   private groupContactsByFirstLetter(contacts: any[]): { letter: string, contacts: any[] }[] {
     const grouped = new Map<string, any[]>();
-  
+
     contacts.forEach(contact => {
       const letter = contact.name[0].toUpperCase();
       if (!grouped.has(letter)) {
@@ -121,15 +129,41 @@ export class ContactsComponent implements OnInit {
       }
       grouped.get(letter)?.push(contact);
     });
-  
+
     return Array.from(grouped.entries()).map(([letter, contacts]) => ({
       letter,
       contacts
     }));
   }
-  
-  
-  
+
+  renderEditOverlay(id: number, initials: string): void {
+    const contact = this.groupedContacts
+      .flatMap(group => group.contacts)
+      .find(c => c.id === id);
+
+    if (contact) {
+      this.selectedContact = contact;
+      this.selectedInitials = initials;
+      this.editOverlayOpen = true;
+    }
+  }
+
+  closeEditOverlay(): void {
+    this.editOverlayOpen = false;
+  }
+
+  updateContact(): void {
+    this.configService.updateContact(this.selectedContact).subscribe({
+      next: () => {
+        this.editOverlayOpen = false;
+        this.loadContacts(); // Liste neu laden
+      },
+      error: err => console.error('Fehler beim Aktualisieren:', err)
+    });
+  }
+
+
+
 
   getInitials(name: string): string {
     const parts = name.trim().split(' ');
@@ -154,10 +188,10 @@ export class ContactsComponent implements OnInit {
     return colors[Math.floor(Math.random() * colors.length)];
   }
 
-  
+
   setContactActive(event: Event): void {
     const elements = document.querySelectorAll('.contact-card');
-    elements.forEach(el => el.classList.remove('active')); 
+    elements.forEach(el => el.classList.remove('active'));
     (event.currentTarget as HTMLElement).classList.add('active');
   }
 }
